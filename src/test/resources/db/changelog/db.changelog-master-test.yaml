@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/00_func-changelog.sql
+  - include:
+      file: db/changelog/01_ddl-changelog.sql

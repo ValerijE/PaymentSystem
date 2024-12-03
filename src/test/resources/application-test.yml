@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16:///test?TC_DAEMON=true
+    username: test
+    password: test
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master-test.yaml
+
+logging:
+  level:
+    root: info
+    org.springframework.security: DEBUG
+    org.springframework.web.servlet.mvc.method: trace
+    com.evv.http: debug
+    com.evv.config: debug
+    org.springframework.jdbc: TRACE

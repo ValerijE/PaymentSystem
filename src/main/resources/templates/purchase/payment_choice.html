@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:replace="~{common::head (#{page.payment.payment_choice_title})}"></head>
+
+<body>
+<table style="all: unset">
+    <tr>
+        <td style="all: unset; text-align: right; vertical-align: middle; display: inline-block; width: 400px">
+            <div th:replace="~{common :: to_products}"></div>
+        </td>
+        <td style="all: unset; text-align: right; vertical-align: middle; display: inline-block; width: 400px">
+            <div th:replace="~{common :: logout}"></div>
+        </td>
+    </tr>
+</table>
+<br>
+
+<fieldset>
+    <legend th:text="#{page.payment.chosen_products}">Chosen products</legend>
+    <table>
+        <tr>
+            <th th:text="#{page.products.product_name}">Product name</th>
+            <th th:text="#{page.products.cost}">Cost</th>
+        </tr>
+            <tr th:each="product : ${chosenProducts}">
+                <td th:text="${product.name}" />
+                <td th:text="${product.cost}" />
+            </tr>
+    </table>
+</fieldset>
+
+<label th:text="|#{page.payment.total_product_cost_is} ${totalCost}|" />
+<br>
+<br>
+<form th:action="@{/purchase/confirm-credit-card}" method="post" th:object="${paymentChoiceHolder}">
+    <fieldset>
+        <legend th:text="#{page.payment.credit_cards}">Credit cards</legend>
+        <table style="width: 800px">
+            <tr>
+                <th th:text="#{page.payment.card_number}">Card number</th>
+                <th th:text="#{page.payment.expiration_date}">Expiration date</th>
+                <th th:text="#{page.payment.balance}">Balance</th>
+                <th th:text="#{page.payment.credit_limit}">Credit limit</th>
+                <th th:text="#{page.payment.status}">Status</th>
+                <th th:text="#{page.payment.funds_available}">Funds available</th>
+            </tr>
+            <tr th:each="creditCard, iterStat : ${creditCards}">
+                <td>
+                    <div th:if="${creditCard.status == blockedCreditCardStatus}">
+                        <input type="radio" th:id="${creditCard.id}" th:value="${creditCard.id}" disabled/>
+                        <label th:for="${creditCard.id}" th:text="${creditCard.id}" />
+                    </div>
+                    <div th:unless="${creditCard.status == blockedCreditCardStatus}">
+                        <input type="radio" th:checked="${iterStat.first}"
+                               th:id="${creditCard.id}" th:name="creditCardId" th:value="${creditCard.id}" >
+                        <label th:for="${creditCard.id}" th:text="${creditCard.id}" />
+                    </div>
+                </td>
+                <td th:text="${creditCard.expirationDate}" />
+                <td th:text="${creditCard.balance}" />
+                <td th:text="${creditCard.creditLimit}" />
+                <td th:text="${creditCard.status}" />
+                <td th:text="${creditCard.balance.subtract(creditCard.creditLimit)}" />
+            </tr>
+        </table>
+    </fieldset>
+    <br>
+    <button type="submit" th:text="#{page.payment.pay_by_credit_card}" th:disabled="${creditCards.isEmpty()}"></button>
+    <br>
+    <br>
+</form>
+<form th:action="@{/purchase/confirm-account}" method="post" th:object="${paymentChoiceHolder}">
+    <fieldset>
+        <legend th:text="#{page.payment.bank_accounts}">Bank accounts</legend>
+        <table style="width: 300px">
+            <tr>
+                <th th:text="#{page.payment.account_number}">Account number</th>
+                <th th:text="#{page.payment.balance}">Balance</th>
+            </tr>
+            <tr th:each="account, iterStat : ${accounts}">
+                <td>
+                    <div>
+                        <input type="radio" th:checked="${iterStat.first}"
+                               th:id="${account.id}" th:name="accountId" th:value="${account.id}"/>
+                        <label th:for="${account.id}" th:text="${account.id}" />
+                    </div>
+                </td>
+                <td th:text="${account.balance}" />
+            </tr>
+        </table>
+    </fieldset>
+    <br>
+    <button type="submit" th:text="#{page.payment.pay_by_bank_account}" th:disabled="${accounts.isEmpty()}"></button>
+</form>
+</body>
+</html>

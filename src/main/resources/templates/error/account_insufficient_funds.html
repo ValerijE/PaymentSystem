@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{page.error.error}">Error</title>
+</head>
+
+<body>
+    <ins th:text="|#{page.error.account_insufficient_funds} ${chosenAccount.id}|">Insufficient funds in account</ins>
+    <br><br>
+    <div th:text="|#{page.error.top_up_your_account_balance} ${lackFunds}|">Top up your account balance with the amount</div>
+    <br>
+    <div th:replace="~{common::to_products}">Return to shopping</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::head (#{page.registration.registration})}"></head>
+<body>
+    <div th:insert="~{common :: locale}"></div>
+    <form th:action="@{/users/clients}" enctype="multipart/form-data" method="post" th:object="${client}">
+        <label for="email" th:text="|#{page.login.email}:|">Email:</label>
+            <input id="email" type="text" name="email" th:value="*{email}">
+        <br>
+        <label for="rawPassword" th:text="|#{page.login.password}:|">Password:</label>
+            <input id="rawPassword" type="password" name="rawPassword">
+        <br>
+        <label for="birthDate" th:text="|#{page.registration.birthdate}:|">BirthDate:</label>
+            <input id="birthDate" type="date" name="birthDate" th:value="*{birthDate}">
+        <br>
+        <label for="image" th:text="|#{page.login.image}:|">Image:</label>
+            <input id="image" type="file" name="image">
+        <br>
+        <span th:text="|#{page.login.gender}:|">Gender:</span>
+            <label for="male" th:text="#{page.login.gender.male}">MALE</label>
+                <input type="radio" id="male" name="gender" value="MALE" th:checked="${client!=null && client.gender!=null && client.gender.name()=='MALE'}">
+            <label for="female" th:text="#{page.login.gender.female}">FEMALE</label>
+                <input type="radio" id="female" name="gender" value="FEMALE" th:checked="${client!=null && client.gender!=null && client.gender.name()=='FEMALE'}">
+        <br>
+        <button type="submit" th:text="#{page.login.register.button}">Register</button>
+    </form>
+    <div th:if="${errors}">
+        <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+    </div>
+</body>
+</html>

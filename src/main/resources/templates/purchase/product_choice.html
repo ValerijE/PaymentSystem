@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:replace="~{common::head (#{page.products.product_choice_title})}"></head>
+
+<body>
+<table style="all: unset">
+    <tr>
+        <td style="all: unset; text-align: center; vertical-align: middle; display: inline-block">
+            <div th:replace="~{common :: locale}"></div>
+        </td>
+        <td style="all: unset; text-align: right; vertical-align: middle; display: inline-block; width: 400px">
+            <div th:replace="~{common :: logout}"></div>
+        </td>
+    </tr>
+</table>
+<br>
+
+<form th:action="@{/purchase/products}">
+    <fieldset>
+        <legend th:text="#{page.products.filtering_settings}"/>
+        <br>
+        <label for="name" th:text="|#{page.products.product_name}:|">Product name:</label>
+            <input id="name" type="text" name="name" th:value="${filter.name()}" style="width: 100px">
+
+        <label for="minCost" th:text="|#{page.products.min_cost}:|">Min cost:</label>
+            <input id="minCost" type="number" step="100" name="minCost" th:value="${filter.minCost()}" style="width: 60px">
+
+        <label for="maxCost" th:text="|#{page.products.max_cost}:|">Max cost:</label>
+            <input id="maxCost" type="number" step="100" name="maxCost" th:value="${filter.maxCost()}" style="width: 60px">
+        <br>
+        <div>
+            <label for="page" th:text="#{page.products.page_num}">Page №</label>
+                <input id="page" type="number" name="page" th:value="${products.metadata.page}" style="width: 30px">
+
+            <label for="size" th:text="|#{page.products.page_size}:|">Products per page:</label>
+                <input id="size" type="number" name="size" th:value="${products.metadata.size}" style="width: 30px">
+
+            <label for="totalElements" th:text="|#{page.products.total_elements}:|">Products total:</label>
+                <input id="totalElements" type="number" name="totalElements" disabled="disabled"
+                       th:value="${products.metadata.totalElements}" style="width: 30px">
+        </div>
+        <br>
+        <button type="submit" th:text="#{page.products.apply_filtering}">Apply filtering</button>
+    </fieldset>
+</form> <br>
+
+<form th:action="@{/purchase/payment}" method="post" th:object="${productIdsHolder}">
+    <fieldset>
+        <legend th:text="#{page.products.product_choose}"/>
+        <table>
+            <tr>
+                <th th:text="#{page.products.product_name}"/>
+                <th th:text="#{page.products.cost}" />
+            </tr>
+                <tr th:each="product : ${session.products.content}">
+                    <td>
+                        <div>
+                            <input type="checkbox" th:field="*{productIds}" th:value="${product.id}">
+                            <label th:for="${#ids.prev('productIds')}" th:text="${product.name}"/>
+                        </div>
+                    </td>
+                    <td th:text="${product.cost}" />
+                </tr>
+        </table>
+    </fieldset>
+    <br>
+    <button type="submit" th:text="#{page.products.make_purchase}"></button>
+</form>
+
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:replace="~{common::head (#{page.confirm.confirm_purchase_title})}"></head>
+
+<body>
+<table style="all: unset">
+    <tr>
+        <td style="all: unset; text-align: right; vertical-align: middle; display: inline-block; width: 400px">
+            <div th:replace="~{common :: to_products}"></div>
+        </td>
+        <td style="all: unset; text-align: right; vertical-align: middle; display: inline-block; width: 400px">
+            <div th:replace="~{common :: logout}"></div>
+        </td>
+    </tr>
+</table> <br> <br>
+
+<form th:action="@{/purchase/complete}" method="post">
+
+    <fieldset>
+        <legend th:text="#{page.payment.chosen_products}">Chosen products</legend>
+        <table>
+            <tr>
+                <th th:text="#{page.products.product_name}">Product name</th>
+                <th th:text="#{page.products.cost}">Cost</th>
+            </tr>
+            <tr th:each="product : ${chosenProducts}">
+                <td th:text="${product.name}" />
+                <td th:text="${product.cost}" />
+            </tr>
+        </table>
+    </fieldset>
+
+    <label th:text="|#{page.payment.total_product_cost_is} ${totalCost}|" />
+    <br><br>
+
+    <fieldset th:if="${chosenCreditCard}">
+        <legend th:text="#{page.confirm.for_payment_you_chose_cc}">For payment You chose credit card</legend>
+        <table style="width: 800px">
+            <tr>
+                <th th:text="#{page.payment.card_number}">Card number</th>
+                <th th:text="#{page.payment.expiration_date}">Expiration date</th>
+                <th th:text="#{page.payment.balance}">Balance</th>
+                <th th:text="#{page.payment.credit_limit}">Credit limit</th>
+                <th th:text="#{page.payment.status}">Status</th>
+                <th th:text="#{page.payment.funds_available}">Funds available</th>
+            </tr>
+            <tr>
+                <td th:text="${chosenCreditCard.id}" />
+                <td th:text="${chosenCreditCard.expirationDate}" />
+                <td th:text="${chosenCreditCard.balance}" />
+                <td th:text="${chosenCreditCard.creditLimit}" />
+                <td th:text="${chosenCreditCard.status}" />
+                <td th:text="${chosenCreditCard.balance.subtract(chosenCreditCard.creditLimit)}" />
+            </tr>
+        </table>
+    </fieldset>
+    <fieldset th:if="${chosenAccount}">
+        <legend th:text="#{page.confirm.for_payment_you_chose_acc}">For payment You chose account</legend>
+        <table style="width: 300px">
+            <tr>
+                <th th:text="#{page.payment.account_number}">Account number</th>
+                <th th:text="#{page.payment.balance}">Balance</th>
+            </tr>
+            <tr>
+                <td th:text="${chosenAccount.id}" />
+                <td th:text="${chosenAccount.balance}" />
+            </tr>
+        </table>
+    </fieldset>
+    <br>
+    <label th:text="#{page.confirm.click_pay_to_confirm}" />
+    <br>
+    <br>
+    <button type="submit" th:text="#{page.confirm.pay}">Pay</button>
+</form>
+
+<!--<c:if test="${not empty requestScope.errors}">-->
+<!--    <div style="color: red">-->
+<!--        <c:forEach var="error" items="${requestScope.errors}">-->
+<!--            <span>${error.message}</span> <br>-->
+<!--        </c:forEach>-->
+<!--    </div>-->
+<!--</c:if>-->
+
+</body>
+</html>

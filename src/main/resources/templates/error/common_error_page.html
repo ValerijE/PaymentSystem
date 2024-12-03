@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{page.error.error}">Error</title>
+</head>
+
+<body>
+    <br>
+    <ins th:text="|#{page.error.following_error_occurred}: ${message}|">Following error occurred</ins>
+    <br><br>
+    <div th:replace="~{common::to_products}">Return to shopping</div>
+</body>
+</html>

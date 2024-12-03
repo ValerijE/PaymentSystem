@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head (title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+    <style>
+        TABLE {
+            width: 300px;  <!--/* Ширина таблицы */-->
+            border-bottom: 2px solid maroon; <!--/* Линия внизу таблицы */-->
+            background: #fffacd; <!--/* Цвет фона таблицы */-->
+        }
+
+        TH {
+            background: maroon; <!--/* Цвет фона заголовка */-->
+            color: white; <!--/* Цвет текста */-->
+            text-align: center; <!--/* Выравнивание по левому краю */-->
+            padding: 0; <!--/* Поля вокруг текста */-->
+        }
+
+        TD {
+        <!--/* Поля вокруг текста */-->
+            padding: 0 0 0 10px;
+            border-left: 1px dashed maroon;
+            border-right: 1px dashed maroon;
+        }
+
+        TD, TH {
+
+        }
+
+        FIELDSET {
+            width: fit-content
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="logout">
+        <span th:text="${#authentication.principal.username}">Username</span>
+        <form th:action="@{/users/logout}" method="post">
+            <button type="submit" th:text="#{page.common.logout}">Logout</button>
+        </form>
+    </div>
+    <div>
+        <form action="" th:fragment="locale">
+            <select name="lang" onchange="this.form.submit()">
+                <option value="en" th:selected="${#locale.toString() eq 'en'}">EN</option>
+                <option value="ru" th:selected="${#locale.toString() eq 'ru'}">RU</option>
+            </select>
+        </form>
+    </div>
+    <div >
+        <form th:action="@{/purchase/products}" method="get" th:fragment="to_products">
+            <button type="submit" th:text="|&larr; #{page.complete.return_shopping}|">Return to shopping</button>
+        </form>
+    </div>
+</body>
+</html>

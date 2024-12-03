@@ -1,0 +1,36 @@
+spring:
+  mvc:
+    format.date: iso
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    properties.hibernate:
+        batch_size: 50
+        fetch_size: 50
+        show_sql: true
+        format_sql: true
+        hbm2ddl.auto: validate
+    open-in-view: false
+  messages:
+    fallback-to-system-locale: false
+
+logging:
+  level:
+    root: info
+
+springdoc:
+  pathsToMatch: /api/v*/**
+  swagger-ui:
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
+    show-common-extensions: true # чтобы в разделе Schemas отображались Validation constrains
+
+app:
+  payment:
+    credit-card:
+      initial-limit: 100000
+      expiration-years: 5
+    account:
+      initial-balance: 50000
+  version: 0.0.1-SNAPSHOT

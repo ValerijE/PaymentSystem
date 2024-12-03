@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::head (#{page.clients.clients})}"></head>
+<body>
+    <table style="all: unset">
+        <tr>
+            <td style="all: unset; text-align: center; vertical-align: middle; display: inline-block">
+                <div th:replace="~{common :: locale}"></div>
+            </td>
+            <td style="all: unset; text-align: right; vertical-align: middle; display: inline-block; width: 400px">
+                <div th:replace="~{common :: logout}"></div>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <fieldset>
+        <legend th:text="#{page.clients.client_choice}">Client choice</legend>
+        <table style="width: 800px">
+            <tr>
+                <th>Id</th>
+                <th th:text="#{page.login.email}">Email</th>
+                <th th:text="#{page.registration.birthdate}">BirthDate</th>
+                <th th:text="#{page.registration.client_status}">Client status</th>
+                <th th:text="#{page.login.image}">Image</th>
+                <th th:text="#{page.login.gender}">Gender</th>
+            </tr>
+            <tr th:each="client, iterStat : ${clients}">
+                <td th:text="${client.id}"/>
+                <td>
+                    <a th:href="@{'/users/clients/' + ${client.id}}" th:text="${client.email}">email</a>
+                </td>
+                <td th:text="${client.birthDate}" />
+                <td th:text="${client.clientStatus}" />
+                <td th:text="${client.image}" />
+                <td th:text="${client.gender}" />
+            </tr>
+        </table>
+    </fieldset>
+</body>
+</html>

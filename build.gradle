@@ -1,0 +1,114 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+    id 'jacoco'
+}
+apply from: 'version.gradle'
+
+group = 'com.evv'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.data:spring-data-envers'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}"
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-oauth2-client'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    // БД
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'org.postgresql:postgresql'
+
+    // Querydsl
+    implementation "com.querydsl:querydsl-core:${versions.querydsl}" // Иначе транзитивная у com.querydsl:querydsl-jpa будет 5.0.0, а не 5.1.0
+    implementation "com.querydsl:querydsl-jpa:${versions.querydsl}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${versions.querydsl}:jakarta" // Суффикс :jakarta нужен, чтобы не было ошибки java.lang.NoClassDefFoundError: javax/persistence/Entity
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api" // Нужна либо эта, либо 'org.springframework.boot:spring-boot-starter-data-jpa', чтобы не было ошибки java.lang.NoClassDefFoundError: javax/persistence/Entity
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${versions.lombok}"
+    annotationProcessor "org.projectlombok:lombok:${versions.lombok}"
+    testCompileOnly "org.projectlombok:lombok:${versions.lombok}"
+    testAnnotationProcessor "org.projectlombok:lombok:${versions.lombok}"
+
+    // MapStruct
+    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${versions.lombokMapstructBinding}" // Добавить если нет плагина io.freefair.lombok https://github.com/mapstruct/mapstruct-examples/tree/main/mapstruct-lombok
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+
+    // Тесты
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:postgresql'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+test.finalizedBy jacocoTestReport
+jacocoTestReport {
+    dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "com/evv/database/entity/**",
+                    "com/evv/config/**",
+                    "com/evv/dto/**",
+                    "com/evv/ApplicationRunner.class"
+            ])
+        }))
+    }
+}
+
+wrapper {
+    gradleVersion '8.7'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir("${layout.buildDirectory.get().asFile}/generated/sources/annotationProcessor/java/main")
+        }
+    }
+}
+
+configurations {
+    querydsl.extendsFrom annotationProcessor, implementation, runtimeOnly, compileOnly
+}
+querydsl {
+    jpa = true
+    library = "com.querydsl:querydsl-apt:${versions.querydsl}"
+    querydslSourcesDir = "${layout.buildDirectory.get().asFile}/generated/sources/annotationProcessor/java/main"
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+// Чудо-код, добавление которого приводит к стабильной сборке QueryDSL
+def querydslDir = "${layout.buildDirectory.get().asFile}/generated/querydsl"
+compileQuerydsl {
+    source = fileTree(querydslDir)
+}
