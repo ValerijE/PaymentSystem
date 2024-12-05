@@ -74,65 +74,62 @@ AuthorizationFilter, CsrfFilter, @EnableMethodSecurity и прочие клас�
 ## Собственный слой представления
 ### Основные страницы слоя представления
 - **Регистрация нового клиента** на странице registration с валидацией введенных данных:  
-&emsp; &emsp; ![Login](images\markdown\00_Registration_Errors_rus.png)
-- **Авторизация клиента** на странице login, на которой дополнительно реализована возможность авторизации с 
-использованием **сервисов Google и Yandex**, а также сообщение об ошибке ввода:  
-&emsp; &emsp; ![Authorization](images\markdown\01_Login_Error_rus.png)
-- **Страница выбора товаров с фильтрацией, пагинацией** и валидацией, на которую происходит автоматическое 
+&emsp; &emsp; ![Login](/images/markdown/00_Registration_Errors_rus.png)
+- **Авторизация клиента** на странице login, на которой дополнительно реализованы возможность авторизации с 
+использованием **сервисов Google и Yandex** и вывод сообщений валидации:  
+&emsp; &emsp; ![Authorization](/images/markdown/01_Login_Error_rus.png)
+- **Страница выбора товаров** с фильтрацией, пагинацией и валидацией на которую происходит автоматическое 
 перенаправление в случае успешной авторизации пользователя с ролью CLIENT:  
-&emsp; &emsp; ![Purchase_choice](images\markdown\02_Product_choice_rus_filter.png) 
+&emsp; &emsp; ![Purchase_choice](/images/markdown/02_Product_choice_rus_filter.png)
 <br><br>
 возможные сообщения валидации: <br>
-&emsp; &emsp; ![Purchase_choice](images\markdown\02_Product_choice_String_EmptyList_rus.png)  
-&emsp; &emsp; ![Purchase_choice](images\markdown\02_Product_choice_String_NarrowFilter_rus.png)  
-<br>
+&emsp; &emsp; ![Purchase_choice](/images/markdown/02_Product_choice_String_EmptyList_rus.png)<br>
+&emsp; &emsp; ![Purchase_choice](/images/markdown/02_Product_choice_String_NarrowFilter_rus.png)
 - **Страница выбора способа оплаты** - кредитной картой или банковским счетом:  
-&emsp; &emsp; ![Payment_choice](images\markdown\03_Payment_choice_rus.png)  
-<br>
+&emsp; &emsp; ![Payment_choice](/images/markdown/03_Payment_choice_rus.png)
 - **Страница с запросом подтверждения** введенных данных:  
-&emsp; &emsp; ![Payment_choice](images\markdown\04_Confirm_Purchase_CC_rus.png)  
-<br>
+&emsp; &emsp; ![Payment_choice](/images/markdown/04_Confirm_Purchase_CC_rus.png)
 - **Страница с подтверждением совершенной покупки** или с сообщением о недостаточности средств:  
 
-| Успешная оплата кредитной картой | Успешная оплата банковским счетом | Недостаточно средств на счете |
-| --- | --- |---|
-| ![Purchase_complete](images\markdown\05_Purshase_complete_CC_rus.png) | ![Purchase_complete](images\markdown\05_Purshase_complete_Account_rus.png) | ![Purchase_complete](images\markdown\05_Purshase_complete_Account_InsufficientFunds_rus.png) |
+| Успешная оплата кредитной картой                                       | Успешная оплата банковским счетом                                           | Недостаточно средств на счете                                                                 |
+|------------------------------------------------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| ![Purchase_complete](/images/markdown/05_Purshase_complete_CC_rus.png) | ![Purchase_complete](/images/markdown/05_Purshase_complete_Account_rus.png) | ![Purchase_complete](/images/markdown/05_Purshase_complete_Account_InsufficientFunds_rus.png) |
 
 ### Интернационализация
 Выполнена для всех элементов оформления и ошибок валидации. <br>
 Переключение локали производится через выпадающее меню, присутствующее на некоторых страницах приложения: <br>
-&emsp; &emsp; ![Locale_choice](images\markdown\01_Login_Locale_en.png)
+&emsp; &emsp; ![Locale_choice](/images/markdown/01_Login_Locale_en.png)
 
 ## REST контроллер
 Разработан для получения, создания и редактирования покупок
 ### Документация REST ендпоинтов
 Подготовлена средствами **Springdoc** в формате **OpenAPI**, визуализация и тестирование выполнены в интерфейсе **Swagger UI**
 - **Общая информация о проекте**:  
-&emsp; &emsp; ![Swager_title](images\markdown\Swagger_title.png)
+&emsp; &emsp; ![Swager_title](/images/markdown/Swagger_title.png)
 - **Список REST ендпоинтов**:  
-&emsp; &emsp; ![Swager_enpoints](images\markdown\Swagger_Enpoints.png)
+&emsp; &emsp; ![Swager_enpoints](/images/markdown/Swagger_Enpoints.png)
 - **Описание ендпоинтов** на примере GET /api/v1/purchases/{purchaseId}:  
-&emsp; &emsp; ![Swager_enpoints](images\markdown\Swagger_findByid_1.png)  
-&emsp; &emsp; ![Swager_enpoints](images\markdown\Swagger_findByid_200.png)  
-&emsp; &emsp; ![Swager_enpoints](images\markdown\Swagger_findByid_401_401_500.png)  
+&emsp; &emsp; ![Swager_enpoints](/images/markdown/Swagger_findByid_1.png)  
+&emsp; &emsp; ![Swager_enpoints](/images/markdown/Swagger_findByid_200.png)  
+&emsp; &emsp; ![Swager_enpoints](/images/markdown/Swagger_findByid_401_401_500.png)  
 
 ## База данных
 ### Схема
-Все изменения сущностей сохраняются в БД PostgeSQL со следующей схемой:
-&emsp; &emsp; ![Database_scheme](images\markdown\Database_scheme_purchase_lead.png)
+Все изменения сущностей сохраняются в БД PostgeSQL со следующей схемой:  
+&emsp; &emsp; ![Database_scheme](/images/markdown/Database_scheme_purchase_lead.png)
 ### Аудит
 Реализован для всех таблиц БД
 - **Аудит первого и последнего изменения** в таблице сущности:  
 
-| Таблица purchase |
-| ----- |
-|![purchases_audit](images\markdown\Database_purchases_audit.png) |
+| Таблица purchase                                                  |
+|-------------------------------------------------------------------|
+| ![purchases_audit](/images/markdown/Database_purchases_audit.png) |
 
 - **Аудит всех действий** в отдельных таблицах с постфиксом _aud и таблицей ревизий:  
 
-| Таблица purchase_aud                                             | Таблица revision |
-|------------------------------------------------------------------| --- |
-| ![purchase_aud](images\markdown\Database_purchase_aud.png) |![revision](images\markdown\Database_purchase_aud_revision.png) |
+| Таблица purchase_aud                                        | Таблица revision                                                 |
+|-------------------------------------------------------------|------------------------------------------------------------------|
+| ![purchase_aud](/images/markdown/Database_purchase_aud.png) | ![revision](/images/markdown/Database_purchase_aud_revision.png) |
 
 ### Изоляция
 Для повышения степени изоляции транзакций предусмотрены оптимистические блокировки:
@@ -145,7 +142,7 @@ AuthorizationFilter, CsrfFilter, @EnableMethodSecurity и прочие клас�
 Логирование реализовано по канонам АОП в декларативном стиле с использованием аннотаций @AspectJ.  
 
 Пример декорирования сообщений:
-![Console_Log](images\markdown\Console_Log.png)
+![Console_Log](/images/markdown/Console_Log.png)
 
 Пример текстов сообщений:
 ```
@@ -179,11 +176,11 @@ account или credit_card.
 связывания таблицы payment с таблицами account и credit_card с помощью промежуточных таблиц, содержащих внешние ключи.
 
 На уровне БД решение показано на диаграмме таблиц:
-![table_payment_diagramm](images\markdown\Database_Payment_scheme.png)
+![table_payment_diagramm](/images/markdown/Database_Payment_scheme.png)
 
 На уровне приложения базовый класс Payment помечается @Inheritance со стратегией JOINED и далее 
 реализуются его наследники PaymentCreditCard и PaymentAccount как показано на диаграмме классов:  
-![class_payment_diagramm](images\markdown\Classes_Payment_Schema.png)
+![class_payment_diagramm](/images/markdown/Classes_Payment_Schema.png)
 
 У класса Purchase есть полиморфная ассоциация с суперклассом Payment.
 ```java
@@ -387,13 +384,13 @@ $$;
 ```
 ### Покрытие тестами
 Разработаны 110 тестовых методов плюс 31 параметризованный метод с различными значениями параметров 
-(@ParameterizedTest + @ValueSource):
+(@ParameterizedTest + @ValueSource):  
 &emsp; &emsp; <img src="images\markdown\Tests_141count.png" style="max-inline-size: 600px"> </img>  
 Порядок тестов настроен на первоочередное выполнение Unit тестов с помощью класса-наследника 
 org.junit.jupiter.api.ClassOrderer - SpringBootTestClassOrderer.
 
-Отчет о покрытии кода JUnit тестами, сделанный с помощью плагина JaCoCo:
-![Tests_141count](images\markdown\Tests_Jacoco.png)
+Отчет о покрытии кода тестами, сделанный с помощью плагина JaCoCo:
+![Tests_141count](/images/markdown/Tests_Jacoco.png)
 
 # <a id="other"> Прочее :mag_right: </a>
 В проекте также разработаны следующие элементы:

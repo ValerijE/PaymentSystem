@@ -2,14 +2,10 @@ package com.evv.http.controller;
 
 import com.evv.NonTransactionalIT;
 import com.evv.database.entity.CreditCardStatus;
-import com.evv.dto.AccountDto;
-import com.evv.dto.CreditCardDto;
-import com.evv.dto.PageResponse;
-import com.evv.dto.ProductReadDto;
+import com.evv.dto.*;
 import com.evv.exception.FaultChoosingPaymentMethodException;
 import com.evv.service.AccountService;
 import com.evv.service.CreditCardService;
-import com.evv.dto.CustomUserDetails;
 import com.evv.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;

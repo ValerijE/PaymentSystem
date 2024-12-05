@@ -1,8 +1,8 @@
 package com.evv.config.security;
 
+import com.evv.dto.CustomUserDetails;
 import com.evv.http.handler.ControllerExceptionHandler;
 import com.evv.http.handler.RestControllerExceptionHandler;
-import com.evv.dto.CustomUserDetails;
 import com.evv.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

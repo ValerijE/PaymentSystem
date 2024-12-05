@@ -8,8 +8,6 @@ import com.evv.dto.*;
 import com.evv.exception.PurchaseForClientCantBeSavedException;
 import com.evv.exception.PurchaseNotFoundException;
 import com.evv.http.rest.payload.PurchaseCreatePayload;
-import com.evv.dto.CustomUserDetails;
-import com.evv.dto.CustomUserDetailsImpl;
 import com.evv.service.PurchaseService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
