@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
  * поля с аннотацией @Value будут брать дефолтные значения, а соответствующий функционал не будет работать должным образом.
  */
 @Configuration
-@PropertySource(value = "classpath:secrets.properties")
+@PropertySource(value = "classpath:secrets.properties", ignoreResourceNotFound = true)
 @Setter
 public class OauthClientRegistrationConfig {
 

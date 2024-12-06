@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Конфигурация для донастройки аутентификации springdoc-openapi через Google. <br>
- * Прочие настройки springdoc-openapi прописаны в application.yml с префиксом springdoc. <br>
+ * Прочие настройки springdoc-openapi прописаны в application.yml с префиксом springdoc. <br><br>
  * Если смотрите этот код слитый с GitHub, то у Вас отсутствует файл secrets.properties и, следовательно,
  * поля с аннотацией @Value будут брать дефолтные значения, а соответствующий функционал не будет работать должным образом.
  */
@@ -37,7 +37,7 @@ import java.util.List;
                 )
         )
 )
-@PropertySource(value = "classpath:secrets.properties")
+@PropertySource(value = "classpath:secrets.properties", ignoreResourceNotFound = true)
 @Setter
 public class OpenApiConfiguration {
 
